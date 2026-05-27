@@ -1,0 +1,48 @@
+README.md + entry points: standalone engine release (2026-05-26)
+===================================================================
+
+README.md
+  - Crystal of Types, 12 primitives, Shavian tuples, engine overview
+  - Usage examples, data sources (Watkins), Frobenius structural fact
+  - Full acoustic token label table, ClassifierParams reference
+
+pyproject.toml
+  - Switched to setuptools (matches priests-engine pattern)
+  - Entry points: cetacean-speak (whale_audio:main), cetacean-engine (whale_engine:main)
+  - uv pip install -e . → both commands live
+
+whale_engine.py + whale_audio.py
+  - def main() extracted from __main__ blocks in both files
+  - All old-notation primitives → Shavian; tuple separator ; → ·
+  - 0 old-notation hits remaining
+
+
+Previous: cetaceanspeak: initial standalone release (2026-05-26)
+======================================================
+
+whale_engine.py  (1140 lines)
+  - Full IMASM compiler pipeline for cetacean vocalizations
+  - AcousticToken taxonomy: 12 discrete units → IMASM opcodes
+    (VINIT, TANCH, AFWD, AREV, CLINK, ISCRIB, FSPLIT, FFUSE, EVALT, EVALF, ENGAGR, IFIX)
+  - WhaleCompiler.from_spectrogram(timestamps, labels, frequencies) → instruction stream
+  - FrobeniusAnalyzer: μ∘δ=id closure ratio, orphan splits, eight-step loop detection,
+    structural_signature() → dict for alignment
+  - WhaleVM: executes instruction streams, register state (VOID/TRUE/FALSE/BOTH)
+  - StructuralAlignment: argmin_human_expr d(whale_trace, human_trace);
+    6 human expression archetypes (song/narrative/question/greeting/alarm/dialetheic)
+  - Structural type: ⟨𐑦·𐑥·𐑾·𐑿·𐑞·𐑧·𐑲·𐑠·⊙·𐑖·𐑳·𐑭⟩ O_inf tier
+  - Eight-step Frobenius loop (ISCRIB→AREV→FSPLIT→AFWD→FFUSE→CLINK→IFIX→ISCRIB) confirmed
+    as universal invariant across Voynich, Rohonc, Linear A, Emerald Tablet, whale song
+
+whale_audio.py
+  - WAV → acoustic units → IMASM → Frobenius → translation
+  - ClassifierParams: all thresholds tunable (onset_delta, pitch_delta_hz, snr_ok_db, etc.)
+  - classify_audio(): librosa onset_detect + pyin (Nyquist-capped) + rms + spectral_centroid;
+    12-label priority: init → anc → fix → paradox → evalf → split → fuse → rep → up → dn → evalt → link
+  - translate_wav(path, params, verbose): full pipeline, returns {units, report, ranked}
+  - CLI: uv run whale_audio.py <file.wav> [onset_delta]
+  - Verified: Watkins humpback 55113001.wav (38.4s) → 125 units, closure=1.0, top match: song
+
+pyproject.toml
+  - entry points: cetacean-translate, cetacean-engine
+  - deps: librosa, soundfile, numpy

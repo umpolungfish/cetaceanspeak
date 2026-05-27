@@ -1,0 +1,10 @@
+README.md
+pyproject.toml
+whale_audio.py
+whale_engine.py
+cetaceanspeak.egg-info/PKG-INFO
+cetaceanspeak.egg-info/SOURCES.txt
+cetaceanspeak.egg-info/dependency_links.txt
+cetaceanspeak.egg-info/entry_points.txt
+cetaceanspeak.egg-info/requires.txt
+cetaceanspeak.egg-info/top_level.txt

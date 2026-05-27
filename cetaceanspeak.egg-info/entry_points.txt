@@ -1,0 +1,3 @@
+[console_scripts]
+cetacean-engine = whale_engine:main
+cetacean-speak = whale_audio:main
