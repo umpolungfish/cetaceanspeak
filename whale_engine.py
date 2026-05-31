@@ -661,6 +661,97 @@ class StructuralAlignment:
             "histogram": {"VINIT": 1, "ENGAGR": 2, "FSPLIT": 1, "IFIX": 1},
             "description": "Dialetheic statement — paradox density > 0.3, contradiction stabilized"
         },
+
+        # ── Orca-specific expression archetypes ──────────────────────────────────
+        # Orca vocalizations map to different human expression categories than
+        # humpback song because orca communication is dominated by:
+        #   - Pod dialect maintenance (cultural transmission)
+        #   - Group hunting coordination (tactical communication)
+        #   - Matrilineal social bonding (long-term affiliative)
+        #   - Cross-pod negotiation (dialect matching/innovation)
+        "hunting_call": {
+            "length": 18,
+            "closure_ratio": 1.0,
+            "orphan_splits": 0,
+            "paradox_density": 0.35,
+            "fixed_ratio": 0.15,
+            "entropy_delta": 0.0,
+            "loop_count": 0,
+            "histogram": {
+                "VINIT": 1, "ENGAGR": 5, "ISCRIB": 4, "FSPLIT": 1,
+                "FFUSE": 1, "CLINK": 3, "IFIX": 2, "TANCH": 1
+            },
+            "description": "Hunting coordination — paradox-rich pulsed calls with click trains, split/fuse recombination"
+        },
+        "pod_dialect": {
+            "length": 14,
+            "closure_ratio": 1.0,
+            "orphan_splits": 0,
+            "paradox_density": 0.30,
+            "fixed_ratio": 0.20,
+            "entropy_delta": 0.0,
+            "loop_count": 0,
+            "histogram": {
+                "VINIT": 1, "ENGAGR": 4, "ISCRIB": 2, "FSPLIT": 1,
+                "FFUSE": 1, "CLINK": 2, "IFIX": 2, "TANCH": 1
+            },
+            "description": "Pod dialect exchange — culturally transmitted call-and-response with signature fix tokens"
+        },
+        "social_bonding_call": {
+            "length": 13,
+            "closure_ratio": 1.0,
+            "orphan_splits": 0,
+            "paradox_density": 0.25,
+            "fixed_ratio": 0.25,
+            "entropy_delta": 0.0,
+            "loop_count": 0,
+            "histogram": {
+                "VINIT": 1, "ENGAGR": 3, "ISCRIB": 2, "CLINK": 3,
+                "IFIX": 3, "TANCH": 1
+            },
+            "description": "Social bonding — sustained contact calls with high fix ratio, matrilineal group cohesion"
+        },
+        "coordination_signal": {
+            "length": 10,
+            "closure_ratio": 1.0,
+            "orphan_splits": 0,
+            "paradox_density": 0.40,
+            "fixed_ratio": 0.15,
+            "entropy_delta": 0.0,
+            "loop_count": 0,
+            "histogram": {
+                "VINIT": 1, "ENGAGR": 3, "ISCRIB": 3, "CLINK": 1,
+                "IFIX": 1, "TANCH": 1
+            },
+            "description": "Tactical coordination — dense paradox/harmonic structure, rapid turn-taking during cooperative action"
+        },
+        "cross_pod_dialect": {
+            "length": 16,
+            "closure_ratio": 1.0,
+            "orphan_splits": 0,
+            "paradox_density": 0.30,
+            "fixed_ratio": 0.15,
+            "entropy_delta": 0.0,
+            "loop_count": 0,
+            "histogram": {
+                "VINIT": 1, "ENGAGR": 3, "ISCRIB": 2, "FSPLIT": 2,
+                "FFUSE": 2, "CLINK": 2, "IFIX": 3, "TANCH": 1
+            },
+            "description": "Cross-pod negotiation — dialect innovation via split/fuse cycles, elevated fix for identity marking"
+        },
+        "echolocation_probe": {
+            "length": 9,
+            "closure_ratio": 1.0,
+            "orphan_splits": 0,
+            "paradox_density": 0.0,
+            "fixed_ratio": 0.0,
+            "entropy_delta": 0.0,
+            "loop_count": 0,
+            "histogram": {
+                "VINIT": 1, "ISCRIB": 7, "TANCH": 1
+            },
+            "description": "Echolocation click train — rapid exact repetition (ISCRIB), no paradox, minimal fix, pure probe"
+        }
     }
 
     @staticmethod
@@ -811,6 +902,83 @@ EIGHT_STEP_LOOP: list[str] = [
     "rep", "dn", "split", "up", "fuse", "link", "fix", "rep"
 ]
 
+
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# ORCA (KILLER WHALE) CANONICAL SEQUENCES
+# ──────────────────────────────────────────────────────────────────────────────
+
+# Orca vocalization architecture differs fundamentally from humpback:
+#   - Burst-pulse calls with harmonic structure (not tonal song)
+#   - Pod-specific call repertoires (culturally transmitted dialects)
+#   - Echolocation clicks for navigation/hunting
+#   - Coordinated group vocalizations during hunts
+#   - Signature whistles for individual identification (in some populations)
+
+# Orca pulsed call — burst-pulse, harmonic-rich, rapid repetition:
+# The core orca vocal unit: init → paradox → rep → paradox → link → fix → anc
+# "paradox" tokens here represent the harmonic structure of burst-pulse calls
+# (multiple simultaneous frequency bands), not actual overlapping vocalizations.
+ORCA_PULSED_CALL: list[str] = [
+    "init", "paradox", "rep", "paradox", "link", "fix", "anc"
+]
+
+# Orca echolocation click train — rapid discrete pulses:
+# init → rep → rep → rep → rep → rep → anc
+ORCA_CLICK_TRAIN: list[str] = [
+    "init", "rep", "rep", "rep", "rep", "rep", "rep", "rep", "anc"
+]
+
+# Orca pod dialect exchange — call-and-response between pod members:
+# Two or more individuals exchange pulsed calls with slight variation
+ORCA_POD_EXCHANGE: list[str] = [
+    "init", "paradox", "rep", "link", "paradox", "split", "fuse", "fix",
+    "paradox", "rep", "link", "paradox", "fix", "anc"
+]
+
+# Orca hunting coordination — pulsed calls interleaved with click trains:
+# Rapid alternation between broadband pulses and click bouts during prey pursuit
+ORCA_HUNT_SEQUENCE: list[str] = [
+    "init", "paradox", "rep", "paradox", "link",
+    "rep", "rep", "rep", "rep",  # click train
+    "paradox", "split", "fuse", "link",
+    "rep", "rep", "rep", "rep",  # second click train
+    "paradox", "fix", "anc"
+]
+
+# Orca signature whistle — consistent frequency contour, individual-specific:
+# Some orca populations use signature whistles for individual recognition
+ORCA_SIGNATURE_WHISTLE: list[str] = [
+    "init", "up", "up", "link", "dn", "fix", "anc"
+]
+
+# Orca calf call — juvenile vocalization, distinct from adult repertoire:
+# Higher frequency, shorter duration, less stereotyped structure
+ORCA_CALF_CALL: list[str] = [
+    "init", "paradox", "up", "link", "paradox", "dn", "fix", "anc"
+]
+
+# Orca social bonding — extended contact calls within matrilineal group:
+# Sustained low-frequency pulsed calls with high repetition
+ORCA_SOCIAL_BONDING: list[str] = [
+    "init", "paradox", "rep", "link", "paradox", "rep", "link",
+    "paradox", "rep", "fix", "link", "fix", "anc"
+]
+
+# Orca alarm — sudden high-energy burst pulse, rapid repetition:
+# Distinct from humpback alarm; uses broadband pulse rather than tonal evalf
+ORCA_ALARM_CALL: list[str] = [
+    "evalf", "paradox", "paradox", "paradox", "fix"
+]
+
+# Orca cross-pod encounter — dialect negotiation between pods:
+# Two pods with different call repertoires meet; call exchange with innovation
+ORCA_CROSS_POD: list[str] = [
+    "init", "paradox", "split", "fuse", "link",
+    "paradox", "rep", "split", "fuse", "link",
+    "paradox", "rep", "fix", "fix", "anc"
+]
 
 # ──────────────────────────────────────────────────────────────────────────────
 # VERIFICATION FUNCTIONS

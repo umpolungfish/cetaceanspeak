@@ -92,7 +92,7 @@ def classify_audio(
 
     # ── per-frame pitch (pyin is better but slower; use yin) ─────────────────
     f0, voiced_flag, _ = librosa.pyin(
-        y, fmin=10.0, fmax=min(8000.0, sr / 2 - 1), sr=sr, hop_length=hop,
+        y, fmin=max(20.0, sr / 2048 * 1.1), fmax=min(8000.0, sr / 2 - 1), sr=sr, hop_length=hop,
         fill_na=0.0,
     )
 
