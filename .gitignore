@@ -5,3 +5,4 @@ data/*.mp3
 data/*.flac
 data/*.ogg
 *.pdf
+*.wav
