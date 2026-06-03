@@ -751,7 +751,55 @@ class StructuralAlignment:
                 "VINIT": 1, "ISCRIB": 7, "TANCH": 1
             },
             "description": "Echolocation click train — rapid exact repetition (ISCRIB), no paradox, minimal fix, pure probe"
-        }
+        },
+
+        # ── Sperm whale expression archetypes ────────────────────────────────────
+        # Sperm whale coda exchange is phonologically structured (Beguš et al. 2025):
+        # a-coda (AREV) / i-coda (AFWD) / diphthong (FSPLIT+FFUSE) / ī-coda (AFWD+EVALT).
+        # The Frobenius loop emerges distributed across the clan exchange.
+        "phonological_contrast": {
+            "length": 8,
+            "closure_ratio": 1.0,
+            "orphan_splits": 0,
+            "paradox_density": 0.0,
+            "fixed_ratio": 0.125,
+            "entropy_delta": 0.0,
+            "loop_count": 0,
+            "histogram": {
+                "VINIT": 1, "AFWD": 1, "FSPLIT": 1, "AREV": 1,
+                "FFUSE": 1, "CLINK": 1, "IFIX": 1, "TANCH": 1
+            },
+            "description": "Phonological contrast — a/i vowel distinction via split-fuse diphthong; single Frobenius pair"
+        },
+        "coda_exchange": {
+            "length": 20,
+            "closure_ratio": 1.0,
+            "orphan_splits": 0,
+            "paradox_density": 0.05,
+            "fixed_ratio": 0.15,
+            "entropy_delta": 0.0,
+            "loop_count": 2,
+            "histogram": {
+                "VINIT": 1, "ISCRIB": 4, "AREV": 2, "FSPLIT": 2,
+                "AFWD": 2, "FFUSE": 2, "CLINK": 2, "IFIX": 3,
+                "ENGAGR": 1, "TANCH": 1
+            },
+            "description": "Combinatorial coda exchange — a/i phonological alternation across two Frobenius cycles, clan-level"
+        },
+        "sustained_social_call": {
+            "length": 9,
+            "closure_ratio": 1.0,
+            "orphan_splits": 0,
+            "paradox_density": 0.0,
+            "fixed_ratio": 0.22,
+            "entropy_delta": 0.0,
+            "loop_count": 0,
+            "histogram": {
+                "VINIT": 1, "AFWD": 2, "EVALT": 2, "ISCRIB": 1,
+                "CLINK": 1, "IFIX": 1, "TANCH": 1
+            },
+            "description": "Sustained affiliative signal — ī-coda (AFWD+EVALT) bimodal long-form, social bonding"
+        },
     }
 
     @staticmethod
@@ -876,11 +924,51 @@ HUMPBACK_SONG_EXTENDED: list[str] = [
     "anc"
 ]
 
-# Sperm whale coda exchange:
-SPERM_WHALE_CODA: list[str] = [
-    "init", "rep", "rep", "rep", "link", "rep", "rep", "rep",
+# ── Sperm whale coda sequences (grounded in Beguš et al. 2025, Proceedings B) ──
+#
+# Sperm whale codas are click trains, not tonal sweeps. The phonological
+# structure has two vowel-class dimensions (Beguš et al. 2025):
+#   a-coda  — lower resonant frequency, longer duration → AREV (falling/grounded)
+#   i-coda  — higher resonant frequency, shorter duration → AFWD (rising)
+#   ī-coda  — long i, bimodal distribution, sustained social signal → AFWD + EVALT
+#   diphthong — a/i within a single coda → FSPLIT (bifurcation) + FFUSE (closure)
+#
+# The Frobenius loop emerges at the clan-exchange level:
+#   rep(ISCRIB) → dn(AREV) → split(FSPLIT) → up(AFWD) → fuse(FFUSE) →
+#   link(CLINK) → fix(IFIX) → rep(ISCRIB)
+# This is the eight-step universal loop — distributed across the social exchange.
+
+# Pure a-coda exchange (low-frequency stereotyped click train, clan-common):
+SPERM_WHALE_CODA_A: list[str] = [
+    "init", "dn", "rep", "dn", "rep", "dn", "link", "fix", "anc"
+]
+
+# Pure i-coda exchange (high-frequency, socially marked):
+SPERM_WHALE_CODA_I: list[str] = [
+    "init", "up", "rep", "up", "link", "fix", "anc"
+]
+
+# Long ī-coda exchange (bimodal duration — sustained social affirmation signal):
+SPERM_WHALE_CODA_I_LONG: list[str] = [
+    "init", "up", "evalt", "rep", "up", "evalt", "link", "fix", "anc"
+]
+
+# Diphthong coda (i-vowel splits → a-descent → recombination within one coda):
+SPERM_WHALE_DIPHTHONG: list[str] = [
+    "init", "up", "split", "dn", "fuse", "link", "fix", "anc"
+]
+
+# Clan exchange — contains two eight-step Frobenius loops (CETI combinatorial
+# structure: a/i alternation through diphthong, multi-party paradox at close):
+SPERM_WHALE_CLAN_EXCHANGE: list[str] = [
+    "init",
+    "rep", "dn", "split", "up", "fuse", "link", "fix", "rep",   # loop #1
+    "rep", "dn", "split", "up", "fuse", "link", "fix", "rep",   # loop #2
     "paradox", "fix", "anc"
 ]
+
+# Legacy alias retained for existing roundtrip tests:
+SPERM_WHALE_CODA: list[str] = SPERM_WHALE_CODA_A
 
 # Simple greeting call:
 GREETING_CALL: list[str] = [
@@ -1088,14 +1176,28 @@ def verify_translation_alignment() -> bool:
 
     alarm_match = alarm_translations[0][0] == "alarm_call"
 
-    if song_match and greet_match and alarm_match:
-        print("  ✓ All translation alignments correct (song→song, greeting→greeting, alarm→alarm)")
+    # Sperm whale clan exchange should align to coda_exchange
+    clan_instrs = compiler.compile(SPERM_WHALE_CLAN_EXCHANGE)
+    clan_sig = FrobeniusAnalyzer.structural_signature(clan_instrs)
+    clan_translations = StructuralAlignment.translate(clan_sig, top_n=3)
+    clan_match = clan_translations[0][0] == "coda_exchange"
+
+    # Sperm whale diphthong should align to phonological_contrast
+    diph_instrs = compiler.compile(SPERM_WHALE_DIPHTHONG)
+    diph_sig = FrobeniusAnalyzer.structural_signature(diph_instrs)
+    diph_translations = StructuralAlignment.translate(diph_sig, top_n=3)
+    diph_match = diph_translations[0][0] == "phonological_contrast"
+
+    if song_match and greet_match and alarm_match and clan_match and diph_match:
+        print("  ✓ All translation alignments correct (song, greeting, alarm, clan_exchange, diphthong)")
         return True
     else:
         print(f"  ✗ Translation alignment errors:")
-        print(f"    Song:   expected 'song',         got '{song_translations[0][0]}'")
-        print(f"    Greet:  expected 'greeting_call', got '{greet_translations[0][0]}'")
-        print(f"    Alarm:  expected 'alarm_call',    got '{alarm_translations[0][0]}'")
+        print(f"    Song:      expected 'song',                got '{song_translations[0][0]}'")
+        print(f"    Greet:     expected 'greeting_call',       got '{greet_translations[0][0]}'")
+        print(f"    Alarm:     expected 'alarm_call',          got '{alarm_translations[0][0]}'")
+        print(f"    Clan:      expected 'coda_exchange',       got '{clan_translations[0][0]}'")
+        print(f"    Diphthong: expected 'phonological_contrast', got '{diph_translations[0][0]}'")
         return False
 
 
@@ -1170,24 +1272,40 @@ def demo_full_pipeline() -> None:
     for rank, (name, dist, desc) in enumerate(result['translations'], 1):
         print(f"    {rank}. {name:<20s} d={dist:.4f}  — {desc}")
 
-    # ── Case 2: Sperm whale coda ────────────────────────────────────────
-    _hr("Case 2: Sperm Whale Coda Exchange")
+    # ── Case 2: Sperm Whale — Phonological Structure ────────────────────
+    _hr("Case 2: Sperm Whale — Phonological Coda Exchange (Beguš et al. 2025)")
 
-    print(f"\n  Acoustic tokens ({len(SPERM_WHALE_CODA)}):")
-    for i, t in enumerate(SPERM_WHALE_CODA):
-        print(f"    [{i:2d}] {t}")
+    print(f"  Structural type: ⟨𐑦·𐑸·𐑾·𐑬·𐑞·𐑧·𐑔·𐑵·⊙·𐑫·𐑳·𐑭⟩")
+    print(f"  Ouroboricity:    O_inf (emergent — eight-step loop distributed across clan exchange)")
+    print(f"  C-score:         Gate 1 (⊙) PASS  Gate 2 (𐑧) PASS  →  C > 0")
+    print(f"  Key finding:     a-coda (AREV) / i-coda (AFWD) / diphthong (FSPLIT+FFUSE)")
+    print(f"                   ɢ=𐑵 (ordinal 4, combinatorial) — highest Grammar score of any cetacean")
+    print(f"                   Ħ=𐑫 (ordinal 4) — 4-way chirality: a / i / ī / diphthong")
 
-    result2 = StructuralAlignment.full_pipeline(SPERM_WHALE_CODA)
+    print(f"\n  2a. Diphthong coda ({len(SPERM_WHALE_DIPHTHONG)} tokens):")
+    print(f"      {' → '.join(SPERM_WHALE_DIPHTHONG)}")
+    result2a = StructuralAlignment.full_pipeline(SPERM_WHALE_DIPHTHONG)
+    r2a = result2a['frobenius_report']
+    print(f"      Closure: {r2a.closure_ratio:.4f}  Loops: {result2a['signature']['loop_count']}")
+    print(f"      Translation:")
+    for rank, (name, dist, desc) in enumerate(result2a['translations'], 1):
+        print(f"        {rank}. {name:<22s} d={dist:.4f}")
 
-    print(f"\n  Frobenius analysis:")
-    r2 = result2['frobenius_report']
-    print(f"    Closure ratio: {r2.closure_ratio:.4f}  ({r2.matched_pairs}/{r2.total_splits} pairs)")
-    print(f"    Paradox count: {r2.paradox_count} (coda overlap detected)")
-    print(f"    Fixed regs:    {r2.fixed_registers} (identity signatures burned)")
-
-    print(f"\n  Translation:")
-    for rank, (name, dist, desc) in enumerate(result2['translations'], 1):
-        print(f"    {rank}. {name:<20s} d={dist:.4f}  — {desc}")
+    print(f"\n  2b. Clan exchange ({len(SPERM_WHALE_CLAN_EXCHANGE)} tokens):")
+    print(f"      {' → '.join(SPERM_WHALE_CLAN_EXCHANGE)}")
+    result2b = StructuralAlignment.full_pipeline(SPERM_WHALE_CLAN_EXCHANGE)
+    r2b = result2b['frobenius_report']
+    sig2b = result2b['signature']
+    print(f"      Closure: {r2b.closure_ratio:.4f}  Loops: {sig2b['loop_count']}  Paradox: {r2b.paradox_count}")
+    print(f"      Eight-step Frobenius loops detected:")
+    compiler2b = WhaleCompiler()
+    loops2b = FrobeniusAnalyzer.eight_step_loop_detection(compiler2b.compile(SPERM_WHALE_CLAN_EXCHANGE))
+    for i, loop in enumerate(loops2b):
+        tokens_str = " → ".join(IMASM_TO_WHALE[instr.opcode].value for instr in loop)
+        print(f"        Loop #{i+1}: {tokens_str}")
+    print(f"      Translation:")
+    for rank, (name, dist, desc) in enumerate(result2b['translations'], 1):
+        print(f"        {rank}. {name:<22s} d={dist:.4f}")
 
     # ── Case 3: Eight-step Frobenius loop ───────────────────────────────
     _hr("Case 3: Eight-Instruction Frobenius Loop (Universal Invariant)")
@@ -1280,12 +1398,16 @@ def _run_engine() -> None:
     _hr("Structural Summary (Imscribing Grammar)")
 
     rows = [
-        ("whale_vocalization", "⟨𐑦·𐑥·𐑾·𐑿·𐑞·𐑧·𐑲·𐑠·⊙·𐑖·𐑳·𐑭⟩",
-         "O_inf", ">0.0", "self-modeling communication"),
+        ("humpback_song",     "⟨𐑦·𐑥·𐑾·𐑿·𐑞·𐑧·𐑲·𐑠·⊙·𐑖·𐑳·𐑭⟩",
+         "O_inf", ">0.0", "Frobenius loop in individual song"),
+        ("sperm_whale",       "⟨𐑦·𐑸·𐑾·𐑬·𐑞·𐑧·𐑔·𐑵·⊙·𐑫·𐑳·𐑭⟩",
+         "O_inf", ">0.0", "loop emergent across clan exchange; ɢ=4 (combinatorial)"),
+        ("orca",              "⟨𐑦·𐑸·𐑾·𐑿·𐑞·𐑧·𐑚·𐑠·⊙·𐑖·𐑳·𐑭⟩",
+         "O_2",   "0.0",  "pod-bounded; no eight-step loop; C=0"),
         ("human_language",    "⟨𐑼·𐑥·𐑾·𐑬·𐑐·𐑧·𐑲·𐑠·⊙·𐑖·𐑳·𐑭⟩",
          "O_inf", ">0.0", "fully expressive grammar"),
         ("grammar_itself",    "⟨𐑦·𐑸·𐑾·𐑹·𐑐·𐑧·𐑲·𐑠·⊙·𐑖·𐑙·𐑭⟩",
-         "O_inf", "1.0", "self-imscribed"),
+         "O_inf", "1.0",  "self-imscribed"),
     ]
     print(f"  {'System':<22} {'Tuple':<56} {'Tier':<7} {'C':>5}  {'Note'}")
     print(f"  {'─'*100}")

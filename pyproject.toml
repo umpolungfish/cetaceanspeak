@@ -16,6 +16,7 @@ dependencies = [
 [project.scripts]
 cetacean-speak   = "whale_audio:main"
 cetacean-engine  = "whale_engine:main"
+cetacean-speaker = "whale_speaker:main"
 
 [tool.setuptools]
-py-modules = ["whale_engine", "whale_audio"]
+py-modules = ["whale_engine", "whale_audio", "whale_speaker"]

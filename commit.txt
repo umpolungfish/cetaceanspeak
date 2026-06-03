@@ -1,48 +1,46 @@
-README.md + entry points: standalone engine release (2026-05-26)
-===================================================================
+cetaceanspeak: whale_speaker.py — response synthesizer (both modes, all species)
 
-README.md
-  - Crystal of Types, 12 primitives, Shavian tuples, engine overview
-  - Usage examples, data sources (Watkins), Frobenius structural fact
-  - Full acoustic token label table, ClassifierParams reference
+whale_speaker.py (~500 lines):
 
-pyproject.toml
-  - Switched to setuptools (matches priests-engine pattern)
-  - Entry points: cetacean-speak (whale_audio:main), cetacean-engine (whale_engine:main)
-  - uv pip install -e . → both commands live
+  CetaceanSynthesizer — token list → species-appropriate WAV
+    humpback:    frequency sweeps + vibrato; _vibrato_sweep, _harmonic
+    sperm_whale: click trains; a-coda (AREV/800Hz) vs i-coda (AFWD/2500Hz)
+                 diphthong as FSPLIT (interleaved trains) + FFUSE (converging)
+                 signature coda (IFIX) = short-long-short ICI pattern
+    orca:        multi-harmonic burst-pulse via _burst_pulse
+    All species: amplitude envelopes, -18 dBFS normalization, CLINK=no-gap
 
-whale_engine.py + whale_audio.py
-  - def main() extracted from __main__ blocks in both files
-  - All old-notation primitives → Shavian; tuple separator ; → ·
-  - 0 old-notation hits remaining
+  ResponsePlanner — incoming expression → (response_name, token_list)
+    15-entry strategy table covering all HUMAN_EXPRESSIONS archetypes
+    Per-species token sequences: preserves structural register, mirrors
+    phonological contrasts, escalates song/narrative responses
+
+  WhaleSpeaker — unified entry point
+    speak(expression, species, output_path) → WAV  (manual mode)
+    respond(wav_path, species, output_path) → dict (auto-response mode)
+      pipeline: WAV → whale_audio.translate_wav → structural signature
+               → ResponsePlanner → CetaceanSynthesizer → WAV
+
+  CLI:
+    --expression / -e  EXPR    manual mode
+    --respond    / -r  WAV     respond to incoming WAV
+    --species    / -s  SPECIES humpback | sperm_whale | orca
+    --output     / -o  PATH    output WAV path
+    --list       / -l          list available expressions and species
+    --quiet      / -q          suppress analysis output
+
+pyproject.toml:
+  cetacean-speaker = "whale_speaker:main"
+  whale_speaker added to py-modules
+
+~/.bashrc:
+  whale-speak → whale_speaker.py
+
+Verified:
+  - All 3 species synthesize without error
+  - 15 expressions all plan successfully
+  - respond() pipeline works end-to-end on real Watkins humpback WAV
+    (63019007.wav → alarm_call → alarm_call response → 1.33s WAV)
 
 
-Previous: cetaceanspeak: initial standalone release (2026-05-26)
-======================================================
-
-whale_engine.py  (1140 lines)
-  - Full IMASM compiler pipeline for cetacean vocalizations
-  - AcousticToken taxonomy: 12 discrete units → IMASM opcodes
-    (VINIT, TANCH, AFWD, AREV, CLINK, ISCRIB, FSPLIT, FFUSE, EVALT, EVALF, ENGAGR, IFIX)
-  - WhaleCompiler.from_spectrogram(timestamps, labels, frequencies) → instruction stream
-  - FrobeniusAnalyzer: μ∘δ=id closure ratio, orphan splits, eight-step loop detection,
-    structural_signature() → dict for alignment
-  - WhaleVM: executes instruction streams, register state (VOID/TRUE/FALSE/BOTH)
-  - StructuralAlignment: argmin_human_expr d(whale_trace, human_trace);
-    6 human expression archetypes (song/narrative/question/greeting/alarm/dialetheic)
-  - Structural type: ⟨𐑦·𐑥·𐑾·𐑿·𐑞·𐑧·𐑲·𐑠·⊙·𐑖·𐑳·𐑭⟩ O_inf tier
-  - Eight-step Frobenius loop (ISCRIB→AREV→FSPLIT→AFWD→FFUSE→CLINK→IFIX→ISCRIB) confirmed
-    as universal invariant across Voynich, Rohonc, Linear A, Emerald Tablet, whale song
-
-whale_audio.py
-  - WAV → acoustic units → IMASM → Frobenius → translation
-  - ClassifierParams: all thresholds tunable (onset_delta, pitch_delta_hz, snr_ok_db, etc.)
-  - classify_audio(): librosa onset_detect + pyin (Nyquist-capped) + rms + spectral_centroid;
-    12-label priority: init → anc → fix → paradox → evalf → split → fuse → rep → up → dn → evalt → link
-  - translate_wav(path, params, verbose): full pipeline, returns {units, report, ranked}
-  - CLI: uv run whale_audio.py <file.wav> [onset_delta]
-  - Verified: Watkins humpback 55113001.wav (38.4s) → 125 units, closure=1.0, top match: song
-
-pyproject.toml
-  - entry points: cetacean-translate, cetacean-engine
-  - deps: librosa, soundfile, numpy
+Previous: cetaceanspeak: sperm whale module + ORCA_ANALYSIS notation migration

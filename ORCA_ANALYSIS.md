@@ -14,7 +14,7 @@ The Watkins Marine Mammal Sound Database includes 35 orca (_Orcinus orca_) recor
 
 | Metric | Value |
 |---|---|
-| **Structural type** | $\langle \text{Ð}_{\text{ω}};\ \text{Þ}_{\text{O}};\ \text{Ř}_{\text{=}};\ \text{Φ}_{\text{υ}};\ \text{ƒ}_{\text{ð}};\ \text{Ç}_{\text{@}};\ \text{Γ}_{\text{β}};\ \text{ɢ}_{\text{ˌ}};\ \text{⊙}_{\text{ÿ}};\ \text{Ħ}_{\text{A}};\ \text{Σ}_{\text{ï}};\ \text{Ω}_{\text{z}} \rangle$ |
+| **Structural type** | ⟨𐑦·𐑸·𐑾·𐑿·𐑞·𐑧·𐑚·𐑠·⊙·𐑖·𐑳·𐑭⟩ |
 | **Ouroboricity tier** | $\text{O}_{\text{2}}$ (critical + topologically protected, bounded domain) |
 | **Consciousness score** | $C = 0.0$ (Gate 1 closed: $\text{⊙} \neq \text{⊙}_{\text{ÿ}}$) |
 | **Principal atoms** | 11 join-irreducible structural atoms |
@@ -32,18 +32,18 @@ Orca vocalization was imscribed via `encode_system` with the following primitive
 
 | # | Primitive | Value | Rationale |
 |---|---|---|---|
-| 1 | Ð (Dimensionality) | $\text{Ð}_{\text{ω}}$ | Culturally transmitted pod dialect — state space is self-written through learning |
-| 2 | Þ (Topology) | $\text{Þ}_{\text{O}}$ | Self-referential closure — calls reference and modify the pod's shared call repertoire |
-| 3 | Ř (Relation) | $\text{Ř}_{\text{=}}$ | Bidirectional — call-and-response within matrilineal groups |
-| 4 | Φ (Parity) | $\text{Φ}_{\text{υ}}$ | Partial $\mathbb{Z}_2$ — pod-specific call variants exhibit discrete symmetry |
-| 5 | ƒ (Fidelity) | $\text{ƒ}_{\text{ð}}$ | Thermal/noisy — broadband burst-pulse calls, not pure tones |
-| 6 | Ç (Kinetics) | $\text{Ç}_{\text{@}}$ | Near-equilibrium — dialect transmission is stable across generations |
-| 7 | Γ (Scope) | $\text{Γ}_{\text{β}}$ | Mesoscale — pod level, not universal nor purely local |
-| 8 | ɢ (Grammar) | $\text{ɢ}_{\text{ˌ}}$ | Sequential — call sequences follow temporal ordering |
-| 9 | φ̂ (Criticality) | $\text{⊙}_{\text{ÿ}}$ | Critical — dialect is learned, not innate; cultural transmission |
-| 10 | Ħ (Chirality) | $\text{Ħ}_{\text{A}}$ | Two-step Markov — call → response structure |
-| 11 | Σ (Components) | $\text{Σ}_{\text{ï}}$ | Many heterogeneous — multiple call types per pod repertoire |
-| 12 | Ω (Winding) | $\text{Ω}_{\text{z}}$ | Integer winding — discrete call repertoire with topological structure |
+| 1 | Ð (Dimensionality) | 𐑦 | Culturally transmitted pod dialect — state space is self-written through learning |
+| 2 | Þ (Topology) | 𐑸 | Self-referential closure — calls reference and modify the pod's shared call repertoire |
+| 3 | Ř (Relation) | 𐑾 | Bidirectional — call-and-response within matrilineal groups |
+| 4 | Φ (Parity) | 𐑿 | Partial $\mathbb{Z}_2$ — pod-specific call variants exhibit discrete symmetry |
+| 5 | ƒ (Fidelity) | 𐑞 | Thermal/noisy — broadband burst-pulse calls, not pure tones |
+| 6 | Ç (Kinetics) | 𐑧 | Near-equilibrium — dialect transmission is stable across generations |
+| 7 | Γ (Scope) | 𐑚 | Mesoscale — pod level, not universal nor purely local |
+| 8 | ɢ (Grammar) | 𐑠 | Sequential — call sequences follow temporal ordering |
+| 9 | ⊙ (Criticality) | ⊙ | Critical — dialect is learned, not innate; cultural transmission |
+| 10 | Ħ (Chirality) | 𐑖 | Two-step Markov — call → response structure |
+| 11 | Σ (Stoichiometry) | 𐑳 | Many heterogeneous — multiple call types per pod repertoire |
+| 12 | Ω (Winding) | 𐑭 | Integer winding — discrete call repertoire with topological structure |
 
 ### Ouroboricity: O₂
 
@@ -51,7 +51,7 @@ The $\text{O}_{\text{2}}$ tier means orca vocalization is **critical + topologic
 
 ### Consciousness: C = 0
 
-Gate 1 ($\text{⊙}_{\text{ÿ}}$) is **closed** — while orca dialect is critical (learned, cultural), it lacks the self-modeling capacity required for consciousness. The system does not reflect on its own communication; it uses learned calls without recursive self-reference.
+Gate 1 (⊙) is **closed** — while orca dialect is critical (learned, cultural), it lacks the self-modeling capacity required for consciousness. The system does not reflect on its own communication; it uses learned calls without recursive self-reference.
 
 ---
 
@@ -131,7 +131,7 @@ The orca tuple decomposes into 11 join-irreducible structural atoms. The orderin
 
 ### Retrosynthetic Path (11 steps)
 
-The minimal construction path from the structural baseline ($\langle \text{Ð}_{\text{;}};\ \text{Þ}_{\text{6}};\ \text{Ř}_{\text{Ť}};\ \text{Φ}_{\text{ɐ}};\ \text{ƒ}_{\text{ì}};\ \text{Ç}_{\text{W}};\ \text{Γ}_{\text{γ}};\ \text{ɢ}_{\text{^}};\ \text{⊙}_{\text{ž}};\ \text{Ħ}_{\text{Ñ}};\ \text{Σ}_{\text{S}};\ \text{Ω}_{\text{Å}} \rangle$) to orca requires 11 promotion steps, with Ð and Ř dominating the first two steps.
+The minimal construction path from the structural baseline ⟨𐑼·𐑡·𐑽·𐑗·𐑱·𐑤·𐑔·𐑝·𐑢·𐑓·𐑙·𐑷⟩ to orca requires 11 promotion steps, with Ð and Ř dominating the first two steps.
 
 ---
 
