@@ -586,10 +586,11 @@ class WhaleSpeaker:
         if output_path is None:
             output_path = wav_path.parent / f"{wav_path.stem}_response_{species.value}.wav"
 
-        # Step 1: Analyze incoming
+        # Step 1: Analyze incoming with species-appropriate classifier
         if verbose:
             print(f"\n── Incoming: {wav_path.name} ──")
-        result = translate_wav(wav_path, params=params, verbose=verbose)
+        result = translate_wav(wav_path, params=params, verbose=verbose,
+                               species=species.value)
         incoming_expression = result["ranked"][0][0]
         incoming_distance = result["ranked"][0][1]
 

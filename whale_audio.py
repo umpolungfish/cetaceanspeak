@@ -45,6 +45,8 @@ class ClassifierParams:
     onset_delta:         float = 0.07   # librosa onset sensitivity (lower = more)
     frame_ms:            float = 23.2   # hop length converted to ms (512/sr * 1000)
     split_peak_ratio:    float = 0.4    # secondary peak / primary peak → split
+    fmin:                float = 0.0    # pyin fmin override (0 = auto from sr)
+    fmax:                float = 0.0    # pyin fmax override (0 = auto from sr)
 
 
 # ── result container ──────────────────────────────────────────────────────────
@@ -91,8 +93,10 @@ def classify_audio(
     onset_times_ms = librosa.frames_to_time(onset_frames, sr=sr, hop_length=hop) * 1000
 
     # ── per-frame pitch (pyin is better but slower; use yin) ─────────────────
+    _fmin = params.fmin if params.fmin > 0 else max(20.0, sr / 2048 * 1.1)
+    _fmax = params.fmax if params.fmax > 0 else min(8000.0, sr / 2 - 1)
     f0, voiced_flag, _ = librosa.pyin(
-        y, fmin=max(20.0, sr / 2048 * 1.1), fmax=min(8000.0, sr / 2 - 1), sr=sr, hop_length=hop,
+        y, fmin=_fmin, fmax=_fmax, sr=sr, hop_length=hop,
         fill_na=0.0,
     )
 
@@ -231,21 +235,165 @@ def _local_peaks(spec: np.ndarray, min_gap: int = 5) -> list[float]:
     return sorted(peaks, reverse=True)
 
 
+# ── Sperm whale coda classifier ───────────────────────────────────────────────
+# Sperm whale codas are click trains. Each WAV in the DSWP dataset IS one coda.
+# Classification is based on spectral centroid (vowel quality) and ICI pattern.
+#
+# a-coda: dominant energy < A_I_BOUNDARY_HZ → "dn"  (Beguš: low resonance, longer)
+# i-coda: dominant energy > A_I_BOUNDARY_HZ → "up"  (Beguš: high resonance, shorter)
+# ī-coda: i-coda + duration > I_LONG_MS     → "up" + "evalt"
+# diphthong: centroid sweeps > DIPH_SLOPE_HZ_PER_S → "up" + "split" + "dn" + "fuse"
+# signature: matches recurring ICI pattern   → "fix"
+# overlap:   multiple simultaneous click trains → "paradox"
+
+_A_I_BOUNDARY_HZ  = 1500.0   # centroid below = a-coda, above = i-coda
+_I_LONG_MS        = 1200.0   # duration above this → ī-coda
+_DIPH_SLOPE_THRESH = 400.0   # |Hz/s| centroid slope → diphthong
+_MAX_ICI_MS       = 600.0    # clicks further apart than this = separate codas
+
+
+def _detect_clicks(y: np.ndarray, sr: int,
+                   onset_delta: float = 0.01) -> np.ndarray:
+    """Return onset times in seconds for individual clicks."""
+    hop = 256
+    frames = librosa.onset.onset_detect(
+        y=y, sr=sr, hop_length=hop, delta=onset_delta, backtrack=True,
+    )
+    return librosa.frames_to_time(frames, sr=sr, hop_length=hop)
+
+
+def classify_sperm_whale_audio(
+    y: np.ndarray,
+    sr: int,
+    params: Optional[ClassifierParams] = None,
+) -> list[AudioUnit]:
+    """Classify a sperm whale coda (one WAV = one coda, DSWP format).
+
+    Classification is ICI-based, not carrier-frequency-based.  Sperm whale
+    clicks are broadband (5-20 kHz), so spectral centroid does not distinguish
+    vowel quality.  Vowel character lives in the click-rate rhythm:
+
+      Regular, fast ICI  (<= 65ms mean, CV < 0.4) → i-coda  ("up")
+      Regular, slow ICI  (>= 85ms mean, CV < 0.4) → a-coda  ("dn")
+      Rubato  (CV 0.4-0.5, moderate slope)         → diphthong ("up/dn split fuse")
+      Highly irregular (CV >= 0.5) or true overlap → paradox ("paradox")
+      Long i-coda (i + dur > I_LONG_MS)            → ī-coda ("up evalt")
+
+    Every coda ends with "fix anc" — codas are always stereotyped motifs.
+    """
+    if params is None:
+        params = ClassifierParams()
+    total_ms = len(y) / sr * 1000.0
+
+    # ── click detection (fine-grained onset) ─────────────────────────────────
+    hop_click = 64
+    frames = librosa.onset.onset_detect(
+        y=y, sr=sr, hop_length=hop_click, delta=0.005, backtrack=True,
+    )
+    click_times_s = librosa.frames_to_time(frames, sr=sr, hop_length=hop_click)
+
+    if len(click_times_s) > 1:
+        icis_ms = np.diff(click_times_s) * 1000.0
+        icis_ms = icis_ms[(icis_ms > 2.0) & (icis_ms < _MAX_ICI_MS)]
+    else:
+        icis_ms = np.array([])
+
+    n_clicks  = len(click_times_s)
+    mean_ici  = float(np.mean(icis_ms))  if len(icis_ms) else 0.0
+    cv_ici    = float(np.std(icis_ms) / (mean_ici + 1e-9)) if len(icis_ms) else 0.0
+    ici_slope = float(np.polyfit(range(len(icis_ms)), icis_ms, 1)[0]) \
+                if len(icis_ms) > 3 else 0.0  # ms/click; + = slowing, - = speeding
+
+    # ── simultaneous click trains (two animals) ───────────────────────────────
+    # Bimodal ICI distribution: if ICI has two well-separated clusters
+    if len(icis_ms) > 6:
+        short_frac = float(np.mean(icis_ms < 40.0))
+        long_frac  = float(np.mean(icis_ms > 120.0))
+        two_trains = short_frac > 0.25 and long_frac > 0.25
+    else:
+        two_trains = False
+
+    # ── classify ─────────────────────────────────────────────────────────────
+    labels: list[str] = ["init"]
+    notes = [f"n_clicks={n_clicks}",
+             f"mean_ICI={mean_ici:.1f}ms",
+             f"cv={cv_ici:.3f}",
+             f"slope={ici_slope:.2f}ms/click"]
+
+    if two_trains:
+        # Two animals clicking simultaneously — genuine paradox
+        labels.append("paradox")
+    elif cv_ici >= 0.5:
+        # Highly irregular rubato: rhythm is dialetheic (both fast and slow)
+        labels.append("paradox")
+    elif cv_ici >= 0.4:
+        # Moderate rubato — diphthong: rhythm sweeps across a/i
+        if ici_slope < -0.5:
+            labels += ["dn", "split", "up", "fuse"]   # slowing→speeding: a→i
+        elif ici_slope > 0.5:
+            labels += ["up", "split", "dn", "fuse"]   # speeding→slowing: i→a
+        else:
+            labels.append("paradox")                   # rubato without clear sweep
+    elif mean_ici <= 65.0:
+        # Fast regular clicks → i-coda
+        if total_ms > _I_LONG_MS:
+            labels += ["up", "evalt"]                  # ī-coda: sustained
+        else:
+            labels.append("up")
+    elif mean_ici >= 85.0:
+        # Slow regular clicks → a-coda
+        labels.append("dn")
+    else:
+        # Borderline (65-85ms): use slope to break tie
+        if ici_slope < -0.3:
+            labels += ["dn", "split", "up", "fuse"]   # decelerating: a→i diphthong
+        elif ici_slope > 0.3:
+            labels += ["up", "split", "dn", "fuse"]   # accelerating: i→a diphthong
+        else:
+            labels.append("link")                      # neutral carrier
+
+    labels += ["fix", "anc"]
+
+    # ── build AudioUnit list ─────────────────────────────────────────────────
+    step_ms = total_ms / len(labels)
+    return [
+        AudioUnit(
+            timestamp_ms=i * step_ms,
+            duration_ms=step_ms,
+            freq_hz=mean_ici,          # ICI stored in freq_hz for display
+            label=lbl,
+            energy_db=float(n_clicks),
+            snr_db=cv_ici,
+            notes=notes,
+        )
+        for i, lbl in enumerate(labels)
+    ]
+
+
 # ── public entry point ────────────────────────────────────────────────────────
 
 def translate_wav(
     path: str | Path,
     params: Optional[ClassifierParams] = None,
     verbose: bool = True,
+    species: str = "auto",
 ) -> dict:
     """Full pipeline: WAV → acoustic units → IMASM → Frobenius → translation.
+
+    Args:
+        species: "humpback" | "orca" | "sperm_whale" | "auto" (default).
+                 "sperm_whale" uses the coda-level classifier.
+                 "auto" uses the general onset classifier.
 
     Returns the whale_engine.StructuralAlignment result dict.
     """
     from whale_engine import WhaleCompiler, StructuralAlignment, FrobeniusAnalyzer
 
     y, sr = load_wav(path)
-    units = classify_audio(y, sr, params)
+    if species == "sperm_whale":
+        units = classify_sperm_whale_audio(y, sr, params)
+    else:
+        units = classify_audio(y, sr, params)
 
     if not units:
         raise ValueError("No onsets detected — check file or lower onset_delta")

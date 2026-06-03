@@ -1,46 +1,110 @@
-cetaceanspeak: whale_speaker.py — response synthesizer (both modes, all species)
+cetaceanspeak: sperm whale research integration + response synthesizer
 
-whale_speaker.py (~500 lines):
+Cross-referenced Project CETI / Beguš et al. 2025 (Proceedings B) /
+Youngblood 2025 (Science Advances) with existing humpback + orca work.
+Full session: literature survey → structural imscription → synthesis →
+real-data testing on 10 DSWP recordings.
 
-  CetaceanSynthesizer — token list → species-appropriate WAV
-    humpback:    frequency sweeps + vibrato; _vibrato_sweep, _harmonic
-    sperm_whale: click trains; a-coda (AREV/800Hz) vs i-coda (AFWD/2500Hz)
-                 diphthong as FSPLIT (interleaved trains) + FFUSE (converging)
-                 signature coda (IFIX) = short-long-short ICI pattern
-    orca:        multi-harmonic burst-pulse via _burst_pulse
-    All species: amplitude envelopes, -18 dBFS normalization, CLINK=no-gap
+━━━ RESEARCH FINDINGS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-  ResponsePlanner — incoming expression → (response_name, token_list)
-    15-entry strategy table covering all HUMAN_EXPRESSIONS archetypes
-    Per-species token sequences: preserves structural register, mirrors
-    phonological contrasts, escalates song/narrative responses
+Sperm whale structural type (derived from Beguš et al. 2025 + CETI):
+  ⟨𐑦·𐑸·𐑾·𐑬·𐑞·𐑧·𐑔·𐑵·⊙·𐑫·𐑳·𐑭⟩
+  Ouroboricity: O_inf — eight-step loop emergent across clan exchange
+  C > 0 (Gate 1 ⊙ PASS, Gate 2 𐑧 PASS)
+  ɢ = 𐑵 (ordinal 4, combinatorial) — highest Grammar of any cetacean
+  Ħ = 𐑫 (ordinal 4) — 4-way chirality: a / i / ī / diphthong
 
-  WhaleSpeaker — unified entry point
-    speak(expression, species, output_path) → WAV  (manual mode)
-    respond(wav_path, species, output_path) → dict (auto-response mode)
-      pipeline: WAV → whale_audio.translate_wav → structural signature
-               → ResponsePlanner → CetaceanSynthesizer → WAV
+Menzerath's law (Youngblood, Science Advances Feb 2025):
+  11 whale species exhibit the law; only humpback + blue follow Zipf.
+  This maps to the O_inf / O_2 distinction: Zipf ↔ eight-step loop.
 
-  CLI:
-    --expression / -e  EXPR    manual mode
-    --respond    / -r  WAV     respond to incoming WAV
-    --species    / -s  SPECIES humpback | sperm_whale | orca
-    --output     / -o  PATH    output WAV path
-    --list       / -l          list available expressions and species
-    --quiet      / -q          suppress analysis output
+DolphinGemma (Google + Georgia Tech, May 2025):
+  400M-param audio-in/audio-out model on 40y Atlantic spotted dolphin data.
+  SoundStream tokenization → structurally equivalent to IMASM token layer.
+  Path for future dolphin imscription without building acoustic analysis.
 
-pyproject.toml:
-  cetacean-speaker = "whale_speaker:main"
-  whale_speaker added to py-modules
+Crystal summary after this session:
+  humpback     ⟨𐑦·𐑥·𐑾·𐑿·𐑞·𐑧·𐑲·𐑠·⊙·𐑖·𐑳·𐑭⟩  O_inf  loop in individual song
+  sperm_whale  ⟨𐑦·𐑸·𐑾·𐑬·𐑞·𐑧·𐑔·𐑵·⊙·𐑫·𐑳·𐑭⟩  O_inf  loop emergent across clan
+  orca         ⟨𐑦·𐑸·𐑾·𐑿·𐑞·𐑧·𐑚·𐑠·⊙·𐑖·𐑳·𐑭⟩  O_2    pod-bounded, no loop
 
-~/.bashrc:
-  whale-speak → whale_speaker.py
+Real-data result (10 DSWP codas, Eastern Caribbean clan):
+  All 10 are rubato-pattern codas (ICI CV 0.41-0.58): bimodal short/long
+  click distribution = dialetheic rhythm → ENGAGR (paradox). This is the
+  dominant coda type of the Eastern Caribbean clan (Nature Comms 2024).
+  7/10 → paradox → greeting_call response synthesized
+  3/10 → diphthong (ICI slope ≥ 0.3ms/click) → phonological_contrast
+  All 10: Frobenius closure = 1.0 ✓
 
-Verified:
-  - All 3 species synthesize without error
-  - 15 expressions all plan successfully
-  - respond() pipeline works end-to-end on real Watkins humpback WAV
-    (63019007.wav → alarm_call → alarm_call response → 1.33s WAV)
+━━━ whale_engine.py ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+Sperm whale canonical sequences (replacing single stub SPERM_WHALE_CODA):
+  SPERM_WHALE_CODA_A       — a-coda: init dn rep dn rep dn link fix anc
+  SPERM_WHALE_CODA_I       — i-coda: init up rep up link fix anc
+  SPERM_WHALE_CODA_I_LONG  — ī-coda: init up evalt rep up evalt link fix anc
+  SPERM_WHALE_DIPHTHONG    — within-coda split/fuse (Beguš diphthong)
+  SPERM_WHALE_CLAN_EXCHANGE — two eight-step loops: rep→dn→split→up→fuse→
+                               link→fix→rep ×2 + paradox fix anc
+  SPERM_WHALE_CODA = SPERM_WHALE_CODA_A (legacy alias, roundtrip tests pass)
 
-Previous: cetaceanspeak: sperm whale module + ORCA_ANALYSIS notation migration
+Three new HUMAN_EXPRESSIONS archetypes:
+  phonological_contrast  — diphthong, 8 tokens, loop_count=0
+  coda_exchange          — clan exchange, 20 tokens, loop_count=2
+  sustained_social_call  — ī-coda long form
+
+Crystal summary: 5 rows (humpback / sperm_whale / orca / human / grammar)
+Verification: 5/5 pass (song, greeting, alarm, clan_exchange, diphthong)
+
+━━━ ORCA_ANALYSIS.md ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Full Shavian notation migration:
+  Structural type:        ⟨𐑦·𐑸·𐑾·𐑿·𐑞·𐑧·𐑚·𐑠·⊙·𐑖·𐑳·𐑭⟩
+  Primitive table:        12 Value cells → Shavian glyphs
+  Retrosynthetic baseline: ⟨𐑼·𐑡·𐑽·𐑗·𐑱·𐑤·𐑔·𐑝·𐑢·𐑓·𐑙·𐑷⟩
+  Label fixes:            φ̂ → ⊙ (Criticality); Components → Stoichiometry
+
+━━━ whale_speaker.py (NEW) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+CetaceanSynthesizer — token list → species-appropriate WAV:
+  humpback:    vibrato frequency sweeps (_vibrato_sweep), harmonic tones
+  sperm_whale: click trains; a-coda (AREV/800Hz/ICI=100ms),
+               i-coda (AFWD/2500Hz/ICI=60ms), diphthong (interleaved trains),
+               signature (short-long-short ICI pattern)
+  orca:        multi-harmonic burst-pulse (_burst_pulse)
+  All: amplitude envelopes, -18 dBFS normalisation, CLINK = no gap
+
+ResponsePlanner — 15-entry strategy table:
+  greeting↔greeting, alarm↔alarm, song↔song, coda_exchange↔coda_exchange,
+  diphthong↔phonological_contrast; per-species token sequences throughout
+
+WhaleSpeaker:
+  speak(expression, species, output_path)  → WAV  (manual mode)
+  respond(wav_path, species, output_path)  → dict (auto-respond mode)
+    pipeline: WAV → translate_wav(species=) → expression match
+              → ResponsePlanner → CetaceanSynthesizer → WAV
+
+CLI: whale-speak --species / --expression / --respond / --list / --quiet
+
+━━━ whale_audio.py ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ClassifierParams: fmin / fmax fields added; wired into pyin call
+
+classify_sperm_whale_audio() — ICI-based coda classifier:
+  Fine-grained click detection (hop=64, delta=0.005)
+  ICI stats: mean, CV (coefficient of variation), slope per coda
+  Tiers:
+    two simultaneous trains                  → paradox
+    CV ≥ 0.5 (highly irregular rubato)      → paradox
+    CV 0.4-0.5, |slope| > 0.5ms/click       → diphthong (direction by slope sign)
+    CV 0.4-0.5, |slope| ≤ 0.5              → paradox
+    CV < 0.4, mean_ICI ≤ 65ms              → i-coda (up) or ī-coda (up evalt)
+    CV < 0.4, mean_ICI ≥ 85ms              → a-coda (dn)
+    CV < 0.4, 65-85ms                       → diphthong or link by slope
+  All codas: + fix + anc
+
+translate_wav(): species= parameter dispatches to species-specific classifier
+
+━━━ pyproject.toml ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+cetacean-speaker = "whale_speaker:main"  added
+whale_speaker added to py-modules
