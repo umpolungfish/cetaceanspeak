@@ -9,14 +9,14 @@ real-data testing on 10 DSWP recordings.
 
 Sperm whale structural type (derived from Beguš et al. 2025 + CETI):
   ⟨𐑦·𐑸·𐑾·𐑬·𐑞·𐑧·𐑔·𐑵·⊙·𐑫·𐑳·𐑭⟩
-  Ouroboricity: O_inf — eight-step loop emergent across clan exchange
+  Ouroboricity: O_∞ — eight-step loop emergent across clan exchange
   C > 0 (Gate 1 ⊙ PASS, Gate 2 𐑧 PASS)
   ɢ = 𐑵 (ordinal 4, combinatorial) — highest Grammar of any cetacean
   Ħ = 𐑫 (ordinal 4) — 4-way chirality: a / i / ī / diphthong
 
 Menzerath's law (Youngblood, Science Advances Feb 2025):
   11 whale species exhibit the law; only humpback + blue follow Zipf.
-  This maps to the O_inf / O_2 distinction: Zipf ↔ eight-step loop.
+  This maps to the O_∞ / O₂ distinction: Zipf ↔ eight-step loop.
 
 DolphinGemma (Google + Georgia Tech, May 2025):
   400M-param audio-in/audio-out model on 40y Atlantic spotted dolphin data.
@@ -24,9 +24,9 @@ DolphinGemma (Google + Georgia Tech, May 2025):
   Path for future dolphin imscription without building acoustic analysis.
 
 Crystal summary after this session:
-  humpback     ⟨𐑦·𐑥·𐑾·𐑿·𐑞·𐑧·𐑲·𐑠·⊙·𐑖·𐑳·𐑭⟩  O_inf  loop in individual song
-  sperm_whale  ⟨𐑦·𐑸·𐑾·𐑬·𐑞·𐑧·𐑔·𐑵·⊙·𐑫·𐑳·𐑭⟩  O_inf  loop emergent across clan
-  orca         ⟨𐑦·𐑸·𐑾·𐑿·𐑞·𐑧·𐑚·𐑠·⊙·𐑖·𐑳·𐑭⟩  O_2    pod-bounded, no loop
+  humpback     ⟨𐑦·𐑥·𐑾·𐑿·𐑞·𐑧·𐑲·𐑠·⊙·𐑖·𐑳·𐑭⟩  O_∞  loop in individual song
+  sperm_whale  ⟨𐑦·𐑸·𐑾·𐑬·𐑞·𐑧·𐑔·𐑵·⊙·𐑫·𐑳·𐑭⟩  O_∞  loop emergent across clan
+  orca         ⟨𐑦·𐑸·𐑾·𐑿·𐑞·𐑧·𐑚·𐑠·⊙·𐑖·𐑳·𐑭⟩  O₂    pod-bounded, no loop
 
 Real-data result (10 DSWP codas, Eastern Caribbean clan):
   All 10 are rubato-pattern codas (ICI CV 0.41-0.58): bimodal short/long
