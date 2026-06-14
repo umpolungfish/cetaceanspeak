@@ -1,3 +1,10 @@
+Moved ancillary documents to ig-docs (2026-06-14)
+
+2 files moved: ORCA_ANALYSIS.md, ORCA_ANALYSIS.pdf → applications/language/.
+Kept: README.md, all source code.
+
+---
+
 cetaceanspeak: sperm whale research integration + response synthesizer
 
 Cross-referenced Project CETI / Beguš et al. 2025 (Proceedings B) /
