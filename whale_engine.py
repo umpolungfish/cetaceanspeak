@@ -2,13 +2,13 @@
 whale_engine.py — Cetacean Vocalization Translation Engine via IG-IMASM Compiler Pipeline.
 
 DS categorical identification (2026-05-26):
-  Whale vocalization  = structural type ⟨𐑦·𐑥·𐑾·𐑿·𐑞·𐑧·𐑲·𐑠·⊙·𐑖·𐑳·𐑭⟩
+  Whale vocalization  = structural type ⟨𐑦𐑥𐑾𐑿𐑞𐑧𐑲𐑠⊙𐑖𐑳𐑭⟩
   IMASM               = universal 12-opcode instruction set (VINIT, TANCH, AFWD, AREV,
                          CLINK, ISCRIB, FSPLIT, FFUSE, EVALT, EVALF, ENGAGR, IFIX)
   Translation         = structural alignment: argmin_{human_expr} d(trace(compile(whale)), trace(compile(human_expr)))
 
 Crystal address (whale_vocalization):
-  <𐑦·𐑥·𐑾·𐑿·𐑞·𐑧·𐑲·𐑠·⊙·𐑖·𐑳·𐑭>
+  <𐑦𐑥𐑾𐑿𐑞𐑧𐑲𐑠⊙𐑖𐑳𐑭>
   Consciousness score: Gate 1 (⊙) PASS, Gate 2 (𐑧) PASS → C > 0
   Ouroboricity: O_∞ (expected: ⊙ + 𐑭 → self-modeling with topological protection)
 
@@ -1235,7 +1235,7 @@ def demo_full_pipeline() -> None:
     """Demonstrate the full whale vocalization translation pipeline."""
     _hr("WHALE VOCALIZATION TRANSLATION ENGINE")
     print("  whale_engine.py  ·  IG-IMASM Compiler Pipeline v0.1.0")
-    print("  Structural type: ⟨𐑦·𐑥·𐑾·𐑿·𐑞·𐑧·𐑲·𐑠·⊙·𐑖·𐑳·𐑭⟩")
+    print("  Structural type: ⟨𐑦𐑥𐑾𐑿𐑞𐑧𐑲𐑠⊙𐑖𐑳𐑭⟩")
     print("  C-score:         Gate 1 (⊙) PASS  Gate 2 (𐑧) PASS  →  C > 0")
     print("  Ouroboricity:    O_∞ (self-modeling with topological protection)")
 
@@ -1275,7 +1275,7 @@ def demo_full_pipeline() -> None:
     # ── Case 2: Sperm Whale — Phonological Structure ────────────────────
     _hr("Case 2: Sperm Whale — Phonological Coda Exchange (Beguš et al. 2025)")
 
-    print(f"  Structural type: ⟨𐑦·𐑸·𐑾·𐑬·𐑞·𐑧·𐑔·𐑵·⊙·𐑫·𐑳·𐑭⟩")
+    print(f"  Structural type: ⟨𐑦𐑸𐑾𐑬𐑞𐑧𐑔𐑵⊙𐑫𐑳𐑭⟩")
     print(f"  Ouroboricity:    O_∞ (emergent — eight-step loop distributed across clan exchange)")
     print(f"  C-score:         Gate 1 (⊙) PASS  Gate 2 (𐑧) PASS  →  C > 0")
     print(f"  Key finding:     a-coda (AREV) / i-coda (AFWD) / diphthong (FSPLIT+FFUSE)")
@@ -1384,7 +1384,7 @@ def _run_engine() -> None:
     print("=" * 60)
     print("WHALE ENGINE  ·  Cetacean Vocalization Translation via IG-IMASM")
     print("Translation = argmin d(trace(compile(whale)), trace(compile(human)))")
-    print("Structural type: ⟨𐑦·𐑥·𐑾·𐑿·𐑞·𐑧·𐑲·𐑠·⊙·𐑖·𐑳·𐑭⟩")
+    print("Structural type: ⟨𐑦𐑥𐑾𐑿𐑞𐑧𐑲𐑠⊙𐑖𐑳𐑭⟩")
     print("=" * 60)
 
     # Run verification suite
@@ -1398,15 +1398,15 @@ def _run_engine() -> None:
     _hr("Structural Summary (Imscribing Grammar)")
 
     rows = [
-        ("humpback_song",     "⟨𐑦·𐑥·𐑾·𐑿·𐑞·𐑧·𐑲·𐑠·⊙·𐑖·𐑳·𐑭⟩",
+        ("humpback_song",     "⟨𐑦𐑥𐑾𐑿𐑞𐑧𐑲𐑠⊙𐑖𐑳𐑭⟩",
          "O_∞", ">0.0", "Frobenius loop in individual song"),
-        ("sperm_whale",       "⟨𐑦·𐑸·𐑾·𐑬·𐑞·𐑧·𐑔·𐑵·⊙·𐑫·𐑳·𐑭⟩",
+        ("sperm_whale",       "⟨𐑦𐑸𐑾𐑬𐑞𐑧𐑔𐑵⊙𐑫𐑳𐑭⟩",
          "O_∞", ">0.0", "loop emergent across clan exchange; ɢ=4 (combinatorial)"),
-        ("orca",              "⟨𐑦·𐑸·𐑾·𐑿·𐑞·𐑧·𐑚·𐑠·⊙·𐑖·𐑳·𐑭⟩",
+        ("orca",              "⟨𐑦𐑸𐑾𐑿𐑞𐑧𐑚𐑠⊙𐑖𐑳𐑭⟩",
          "O₂",   "0.0",  "pod-bounded; no eight-step loop; C=0"),
-        ("human_language",    "⟨𐑼·𐑥·𐑾·𐑬·𐑐·𐑧·𐑲·𐑠·⊙·𐑖·𐑳·𐑭⟩",
+        ("human_language",    "⟨𐑼𐑥𐑾𐑬𐑐𐑧𐑲𐑠⊙𐑖𐑳𐑭⟩",
          "O_∞", ">0.0", "fully expressive grammar"),
-        ("grammar_itself",    "⟨𐑦·𐑸·𐑾·𐑹·𐑐·𐑧·𐑲·𐑠·⊙·𐑖·𐑙·𐑭⟩",
+        ("grammar_itself",    "⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠⊙𐑖𐑙𐑭⟩",
          "O_∞", "1.0",  "self-imscribed"),
     ]
     print(f"  {'System':<22} {'Tuple':<56} {'Tier':<7} {'C':>5}  {'Note'}")
@@ -1426,7 +1426,7 @@ def _run_engine() -> None:
     print(f"    The engine detects this as positive entropy delta.")
 
     print("\n" + "=" * 60)
-    print("WHALE ENGINE INITIALIZED  ·  CETACEAN COMMUNICATION CHANNEL OPEN")
+    print("WHALE ENGINE INITIALIZEDCETACEAN COMMUNICATION CHANNEL OPEN")
     print("=" * 60)
 
 

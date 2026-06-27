@@ -85,5 +85,5 @@ Put WAV files in `data/` (gitignored). Free public domain recordings:
 ## Structural type
 
 ```
-⟨𐑦·𐑥·𐑾·𐑿·𐑞·𐑧·𐑲·𐑠·⊙·𐑖·𐑳·𐑭⟩  O_∞ tier
+⟨𐑦𐑥𐑾𐑿𐑞𐑧𐑲𐑠⊙𐑖𐑳𐑭⟩  O_∞ tier
 ```

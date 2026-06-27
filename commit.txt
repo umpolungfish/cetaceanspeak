@@ -15,7 +15,7 @@ real-data testing on 10 DSWP recordings.
 ━━━ RESEARCH FINDINGS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Sperm whale structural type (derived from Beguš et al. 2025 + CETI):
-  ⟨𐑦·𐑸·𐑾·𐑬·𐑞·𐑧·𐑔·𐑵·⊙·𐑫·𐑳·𐑭⟩
+  ⟨𐑦𐑸𐑾𐑬𐑞𐑧𐑔𐑵⊙𐑫𐑳𐑭⟩
   Ouroboricity: O_∞ — eight-step loop emergent across clan exchange
   C > 0 (Gate 1 ⊙ PASS, Gate 2 𐑧 PASS)
   ɢ = 𐑵 (ordinal 4, combinatorial) — highest Grammar of any cetacean
@@ -31,9 +31,9 @@ DolphinGemma (Google + Georgia Tech, May 2025):
   Path for future dolphin imscription without building acoustic analysis.
 
 Crystal summary after this session:
-  humpback     ⟨𐑦·𐑥·𐑾·𐑿·𐑞·𐑧·𐑲·𐑠·⊙·𐑖·𐑳·𐑭⟩  O_∞  loop in individual song
-  sperm_whale  ⟨𐑦·𐑸·𐑾·𐑬·𐑞·𐑧·𐑔·𐑵·⊙·𐑫·𐑳·𐑭⟩  O_∞  loop emergent across clan
-  orca         ⟨𐑦·𐑸·𐑾·𐑿·𐑞·𐑧·𐑚·𐑠·⊙·𐑖·𐑳·𐑭⟩  O₂    pod-bounded, no loop
+  humpback     ⟨𐑦𐑥𐑾𐑿𐑞𐑧𐑲𐑠⊙𐑖𐑳𐑭⟩  O_∞  loop in individual song
+  sperm_whale  ⟨𐑦𐑸𐑾𐑬𐑞𐑧𐑔𐑵⊙𐑫𐑳𐑭⟩  O_∞  loop emergent across clan
+  orca         ⟨𐑦𐑸𐑾𐑿𐑞𐑧𐑚𐑠⊙𐑖𐑳𐑭⟩  O₂    pod-bounded, no loop
 
 Real-data result (10 DSWP codas, Eastern Caribbean clan):
   All 10 are rubato-pattern codas (ICI CV 0.41-0.58): bimodal short/long
@@ -65,9 +65,9 @@ Verification: 5/5 pass (song, greeting, alarm, clan_exchange, diphthong)
 ━━━ ORCA_ANALYSIS.md ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Full Shavian notation migration:
-  Structural type:        ⟨𐑦·𐑸·𐑾·𐑿·𐑞·𐑧·𐑚·𐑠·⊙·𐑖·𐑳·𐑭⟩
+  Structural type:        ⟨𐑦𐑸𐑾𐑿𐑞𐑧𐑚𐑠⊙𐑖𐑳𐑭⟩
   Primitive table:        12 Value cells → Shavian glyphs
-  Retrosynthetic baseline: ⟨𐑼·𐑡·𐑽·𐑗·𐑱·𐑤·𐑔·𐑝·𐑢·𐑓·𐑙·𐑷⟩
+  Retrosynthetic baseline: ⟨𐑼𐑡𐑽𐑗𐑱𐑤𐑔𐑝𐑢𐑓𐑙𐑷⟩
   Label fixes:            φ̂ → ⊙ (Criticality); Components → Stoichiometry
 
 ━━━ whale_speaker.py (NEW) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
