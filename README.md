@@ -1,4 +1,6 @@
 # cetaceanspeak
+**Author:** Lando⊗⊙perator · **Structural Type:** $\large{⟨𐑦𐑶𐑾𐑹𐑐𐑧𐑔𐑝⊙𐑖𐑳𐑭⟩}$ · **Tier:** O_∞
+
 
 **What it is.** A pipeline that translates a raw WAV file of cetacean vocalization into IMASM (the categorical assembly of the Imscribing Grammar) and ranks it against human expression archetypes.
 
