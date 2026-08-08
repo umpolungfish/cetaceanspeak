@@ -2,6 +2,7 @@ README.md
 pyproject.toml
 whale_audio.py
 whale_engine.py
+whale_speaker.py
 cetaceanspeak.egg-info/PKG-INFO
 cetaceanspeak.egg-info/SOURCES.txt
 cetaceanspeak.egg-info/dependency_links.txt
