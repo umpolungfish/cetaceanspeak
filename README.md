@@ -6,7 +6,7 @@
 
 **What it does.** Onset/pitch/centroid detection → IMASM compile → Frobenius closure + nearest-type distance. 38s humpback: 125 units, closure 1.0, nearest **song** (d=65.95; narrative 77.12, question 84.15).
 
-**Why it matters.** Whale song runs the same 8-step Frobenius loop (ISCRIB→AREV→FSPLIT→AFWD→FFUSE→CLINK→IFIX→ISCRIB) as human song/speech — shared structure, not analogy.
+**Why it matters.** Whale song runs the same 8-step Frobenius loop (ISCRIB→AREV→FSPLIT→AFWD→FFUSE→CLINK→IFIX→ISCRIB) as human song/speech - shared structure, not analogy.
 
 **Use.** `uv pip install librosa soundfile numpy && uv run whale_audio.py <file.wav> [onset_delta]` (WAVs in gitignored `data/`; cf. Watkins DB). Tokens: init/anc, up/dn, link, rep, fix, split/fuse, evalt/evalf, paradox. Tunables in `ClassifierParams`.
 
